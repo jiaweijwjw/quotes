@@ -27,3 +27,5 @@
 
 ## Important things to checkout
 - how to back up my server after i do all these settings?
+    - full system backup (will the image size be the same as the current system? how to verify?)
+    - rsnapshot (similar to timemachine, using rsync and config to save at certain intervals)
