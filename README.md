@@ -17,6 +17,7 @@ To learn what has already been implemented, refer to the [documentation](./docum
 - **Kubernetes** for container orchestration
 - **Docker** for container management
 - **Ubuntu server (headless) on RPI4** for physical hardware
+- **NGINX** for reverse proxy and further security measures
 
 ## MVP for application logic
 
