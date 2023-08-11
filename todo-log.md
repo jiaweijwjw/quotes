@@ -1,4 +1,10 @@
 ## To do list
+- install kubernetes on ubuntu server
+- install docker on ubuntu server
+- install mariadb server on ubuntu server
+- setup kubernetes cluster
+- running mariadb in a docker container
+- open the ports on ubuntu server to allow mariadb access
 
 - setup isolated subnet for rpi4
 - setup vpn to rpi4 with openVPN
