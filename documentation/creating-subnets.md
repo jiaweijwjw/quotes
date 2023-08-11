@@ -1,4 +1,4 @@
-# Segmenting your home network using subnets
+# Segmenting your home network using subnets vs VLANs
 
 Guide on how to isolate the RPI in its own subnet which is separated from the main subnet which all the other devices in the home network connects to.
 
@@ -7,6 +7,8 @@ Guide on how to isolate the RPI in its own subnet which is separated from the ma
 The home network has to be split up into smaller subnets to isolate the RPI from the main subnet where all the other devices are for security reasons. Devices on the main subnet should still be able to SSH into the RPI on the isolated subnet but the RPI should not be able to see the other devices on the main subnet. The RPI should also not be able to alter / configure anything on the route. 
 
 The documentations here are just brief and simple for the sake of understanding the decisions made in the network setup for this project. For more detailed explanations on the concepts of networking and subnetting in general, take a look at [networkchuck](https://www.youtube.com/@NetworkChuck "networkchuck youtube profile")'s [subnetting playlist](https://www.youtube.com/playlist?list=PLIhvC56v63IKrRHh3gvZZBAGvsvOhwrRF "networkchuck subnetting playlist") on youtube.
+
+The concept of subnets and VLANs is similar in the sense that they both split our main network into 2 different networks. The difference is the subnetting does it physically by introducing routers for each new subnet within the main subnet (devices within one router will contain devices with a specific range of IP addresses) while VLANs can be created virtually just by added an ethernet switch to an existing router (if the router doesnt already have the VLAN capability).
 
 ## DDNS
 WAN IP stands for Wide Area Network IP and this is the public IP address that is assigned to the home router by your ISP (your internet service provider, such as Singtel, Starhub etc). This public IP address that is assigned to you is usually dynamic (DHCP on the ISP side). This mean that people who want to connect to your home network do not have a fixed IP address which they can search for. You can request for a fixed / static public IP address from you ISP but that would usually come at additional cost.  
@@ -26,6 +28,7 @@ You can check the network interface information on your device by running the co
 The netmask portion of out network tells us how many hosts can we have. If we take a look at the number of 0s in the netmask, that tells use the number of bits which can be used for our hosts.
 > By default, the netmask is 255.255.255.0 which is 11111111.11111111.11111111.00000000 whereby 8 bits can be used for our hosts in a single subnet. This means that we have 2^8 private addresses available for use in the home network. This type of netmask which leaves 8bits for the hosts is also usually know as the /24 subnet, whereby 24 is the number of bits representing the network bits.
 
-To increase the number of hosts, we can use a /23 subnet for example (255.255.254.0 / 11111111.11111111.11111110.00000000) to leave 9 bits for the hosts which can accomodate up to 512 IP addresses.
+To increase the number of hosts, we can use a /23 subnet for example (255.255.254.0 / 11111111.11111111.11111110.00000000) to leave 9 bits for the hosts which can accomodate up to 512 IP addresses. To decrease the number of hosts, use lesser number of host bits and more network bits.
 
-However, in this case, 256 IP addresses is already more than sufficient number of devices on the network. But what we want to do is to further split this 256 up into smaller groups.
+## VLAN
+To separate my network into 2 parts, I will be adding a network ethernet switch to my main router. Configurations to the Firewalls have to be done so that devices on the main network VLAN will still be able to reach the RPI (via SSH) but the RPI should not be able to connect to devices in the other VLAN.
